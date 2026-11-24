@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decisiones que importan | Juego educativo</title>
+<style>
+:root{--ink:#292538;--muted:#6d6878;--paper:#fff;--bg:#f6f3f8;--line:#e7e0eb;--accent:#77518d;--pink:#f8dce8;--purple:#e9ddfa;--green:#d9efdc;--yellow:#fff0bf;--blue:#d9eff8;--gray:#e8e9ed;--shadow:0 12px 35px #35234412}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.45}
+button,input,select{font:inherit}button{cursor:pointer;border:0}.wrap{max-width:1100px;margin:auto;padding:22px}
+.hero{background:linear-gradient(125deg,#674778,#bd7995);color:#fff;border-radius:24px;padding:30px;margin-bottom:20px;box-shadow:var(--shadow)}
+.eyebrow{font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.9}.hero h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.04;margin:12px 0}.hero p{max-width:650px;margin:0;color:#fffE}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.pill{border-radius:30px;padding:7px 12px;background:#ffffff25;font-size:.83rem}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+h2,h3{margin:0 0 12px}h2{font-size:1.35rem}h3{font-size:1.1rem}.muted{color:var(--muted)}.small{font-size:.88rem}
+.grid{display:grid;gap:12px}.setup-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+label{font-weight:700;font-size:.9rem;display:block;margin-bottom:6px}input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink)}
+.btn{background:var(--accent);color:white;padding:12px 17px;border-radius:12px;font-weight:750;transition:.15s}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.btn.secondary{background:#f1edf4;color:var(--ink);border:1px solid var(--line)}.btn.full{width:100%}
+.hidden{display:none!important}
+.topstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;padding:12px;border-radius:14px;background:#f8f5fa}.stat strong{display:block;font-size:1.25rem}.stat span{font-size:.77rem;color:var(--muted)}
+.board{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.cell{min-height:76px;border-radius:12px;padding:7px 3px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-size:.7rem;font-weight:800;border:2px solid transparent;position:relative;overflow-wrap:anywhere}
+.cell .num{font-size:.65rem;opacity:.7}.cell .tokens{font-size:.76rem;margin-top:4px;color:#493b50}
+.cell.current{border-color:#4d2b63;box-shadow:0 0 0 2px #b89acb}.pink{background:var(--pink);color:#762e4d}.purple{background:var(--purple);color:#55337d}.green{background:var(--green);color:#245b36}.yellow{background:var(--yellow);color:#735313}.blue{background:var(--blue);color:#20536a}.special{background:var(--gray);color:#374151}
+.legend{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.legend span{font-size:.76rem;font-weight:750;padding:5px 9px;border-radius:20px}
+.players{display:grid;gap:9px}.player{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.player.active{border-color:var(--accent);background:#faf6fc}.player small{display:block;color:var(--muted)}
+.rolebox{background:#f8f5fa;border-radius:12px;padding:12px;margin:12px 0}.challenge{border:2px solid var(--line)}.question{font-size:1.05rem;font-weight:700;margin:8px 0 15px}.answers{display:grid;gap:9px}.answer{padding:12px 14px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:11px;color:var(--ink)}.answer:hover:not(:disabled){border-color:var(--accent);background:#faf7fc}.answer.correct{border:2px solid #26945a;background:#effaf2}.answer.wrong{border:2px solid #c75d5d;background:#fff4f4}
+.feedback{margin-top:13px;padding:14px;border-radius:12px;background:#f6f3f8}.feedback.good{background:#edf8f0}.feedback.bad{background:#fff5ed}
+.tag{display:inline-block;padding:5px 10px;border-radius:20px;font-size:.76rem;font-weight:800}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.actions>*{flex:1}
+.footer{text-align:center;color:var(--muted);font-size:.78rem;padding:8px}
+dialog{border:0;border-radius:18px;max-width:600px;width:calc(100% - 28px);padding:24px;box-shadow:0 20px 80px #0003}dialog::backdrop{background:#20182b88}
+@media(max-width:650px){.wrap{padding:13px}.hero{padding:23px 19px}.panel{padding:15px}.board{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.cell{min-height:68px;font-size:.66rem}.topstats{gap:6px}.stat{padding:9px 4px}.stat strong{font-size:1.05rem}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="hero">
+<div class="eyebrow">Juego educativo · Salud sexual y reproductiva</div>
+<h1>Decisiones que importan</h1>
+<p>Un recorrido para aprender sobre violencia de género, relaciones saludables, consentimiento, derechos y el rol de la matrona.</p>
+<div class="pills"><span class="pill">🎲 28 casillas</span><span class="pill">👥 2 a 4 jugadores</span><span class="pill">📚 Aprender jugando</span></div>
+</header>
+
+<section id="online" class="panel"><h2>Partida multijugador online</h2><p id="netStatus" class="muted">Conectando con Firebase…</p><label>Tu nombre</label><input id="onlineName" maxlength="22" placeholder="Tu nombre"><div class="actions" style="margin-top:12px"><button class="btn" id="createRoom" disabled>Crear sala</button><button class="btn secondary" id="joinRoom" disabled>Unirse</button></div><label style="margin-top:12px">Código de invitación</label><input id="roomCode" maxlength="6" inputmode="numeric" placeholder="123456"><div id="lobby" class="hidden"><h3 id="roomTitle" style="margin-top:15px"></h3><button id="copyInvite" class="btn secondary">Copiar enlace de invitación</button><div id="membersList" class="players" style="margin:12px 0"></div><button id="onlineStart" class="btn full hidden">Comenzar partida</button><button id="leaveRoom" class="btn secondary full" style="margin-top:8px">Salir de la sala</button></div></section>
+<section id="setup" class="panel">
+<h2>1. Preparen la partida</h2>
+<p class="muted small">Ingresen los nombres. Los roles se asignan automáticamente y pueden consultarse durante el juego.</p>
+<div class="setup-grid grid">
+<div><label for="count">Cantidad de jugadores</label><select id="count"><option value="2">2 jugadores</option><option value="3">3 jugadores</option><option value="4">4 jugadores</option></select></div>
+<div id="nameFields" class="grid"></div>
+</div>
+<button id="start" class="btn full" style="margin-top:16px">Comenzar partida →</button>
+</section>
+
+<section id="game" class="hidden">
+<div class="topstats panel">
+<div class="stat"><span>RONDA / TURNO</span><strong id="turnNo">1</strong></div>
+<div class="stat"><span>JUGADOR ACTUAL</span><strong id="currentName">—</strong></div>
+<div class="stat"><span>DADO</span><strong id="die">🎲</strong></div>
+</div>
+<section class="panel">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><h2>Tablero de recorrido</h2><span class="muted small">Salida → Meta</span></div>
+<div id="board" class="board"></div>
+<div class="legend"><span class="pink">Rosa · Género</span><span class="purple">Morado · Pololeo</span><span class="green">Verde · SSR</span><span class="yellow">Amarillo · Prueba</span><span class="blue">Celeste · Casos</span><span class="special">Gris · Especial</span></div>
+</section>
+<section class="panel"><h3>Puntajes y posiciones</h3><div id="scoreboard" class="players"></div></section>
+<section class="panel">
+<h2>Tu turno</h2><div class="rolebox"><span class="tag blue" id="roleName">Rol</span><p class="small" id="roleDesc" style="margin:8px 0 0"></p></div>
+<button id="roll" class="btn full">🎲 Lanzar dado</button><p id="movement" class="muted small" style="text-align:center;margin-bottom:0"></p>
+</section>
+<section id="challenge" class="panel challenge hidden">
+<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span id="category" class="tag">Categoría</span><span id="cardNo" class="muted small"></span></div>
+<h2 id="cardTitle" style="margin-top:12px"></h2>
+<p id="question" class="question"></p>
+<p id="caseHint" class="muted small hidden">Antes de elegir, conversen brevemente sobre cómo responderían de manera respetuosa y segura.</p>
+<div id="answers" class="answers"></div>
+<div id="feedback" class="feedback hidden" aria-live="polite"></div>
+<button id="next" class="btn full hidden" style="margin-top:14px">Continuar al siguiente turno →</button>
+</section>
+<div class="actions" style="margin-bottom:16px"><button class="btn secondary" id="rules">📖 Reglas</button><button class="btn secondary" id="restart">↻ Reiniciar</button></div>
+</section>
+
+<section id="end" class="panel hidden" style="text-align:center">
+<div style="font-size:3rem">🏆</div><h2>¡Tenemos un ganador!</h2><p id="winnerText"></p><div id="finalScores" class="players" style="text-align:left;margin:18px 0"></div>
+<div class="feedback" style="text-align:left"><b>Reflexión grupal</b><p>¿Qué aprendimos sobre el consentimiento, el respeto, la autonomía y los derechos sexuales y reproductivos? ¿Por qué es importante el rol de la matrona en la detección y atención de situaciones de violencia?</p></div>
+<button id="playAgain" class="btn full">Jugar nuevamente</button>
+</section>
+<p class="footer">Contenido basado en el documento «sexualidad completo 1» y las indicaciones del tablero del grupo.</p>
+</main>
+
+<dialog id="rulesDialog">
+<h2>Reglas del juego</h2>
+<ol class="small" style="padding-left:21px;line-height:1.8">
+<li>Todos comienzan en la salida y juegan por turnos.</li>
+<li>Lanza el dado y avanza el número indicado.</li>
+<li>Resuelve el desafío correspondiente al color de la casilla.</li>
+<li>Una respuesta correcta otorga 5 puntos. Las respuestas incorrectas no descuentan puntos.</li>
+<li>En los casos celestes se busca identificar el problema y proponer una alternativa respetuosa y segura.</li>
+<li>Las casillas especiales pueden hacer avanzar, retroceder o perder un turno.</li>
+<li>Gana quien llegue primero a la meta. El puntaje funciona como reconocimiento adicional.</li>
+<li>Respeten los turnos, escuchen y no se burlen de las respuestas.</li>
+</ol>
+<button class="btn full" id="closeRules">Cerrar</button>
+</dialog>
+
+<script>
+const $=id=>document.getElementById(id);
+const roles=[
+['Matrona o profesional de salud','Actúas con empatía, escucha activa, confidencialidad, evaluación del riesgo y derivación según protocolos.'],
+['Persona cercana','Escuchas sin juzgar, respetas las decisiones y ayudas a buscar redes de apoyo.'],
+['Educador/a','Promueves el respeto, la igualdad, el consentimiento y la prevención.'],
+['Estudiante de salud','Identificas señales de alerta y propones una respuesta segura y respetuosa.']
+];
+const decks={
+pink:[
+{t:'Tipos de violencia',q:'Una persona recibe insultos, humillaciones y amenazas que afectan su autoestima. ¿Qué tipo de violencia se identifica principalmente?',o:['Física','Psicológica o emocional','Económica'],a:1,e:'La violencia psicológica afecta la estabilidad emocional y la autoestima mediante amenazas, insultos, humillaciones y manipulación.'},
+{t:'Violencia económica',q:'Una pareja controla todos los recursos económicos y prohíbe a la otra persona trabajar. ¿Qué tipo de violencia representa?',o:['Económica y patrimonial','Digital','Física'],a:0,e:'La violencia económica y patrimonial incluye controlar los recursos financieros y prohibir trabajar.'},
+{t:'Violencia digital',q:'Difundir información para humillar a una persona mediante redes sociales es una manifestación de:',o:['Violencia digital','Violencia económica','Consentimiento'],a:0,e:'Las agresiones realizadas mediante medios tecnológicos corresponden a violencia digital.'},
+{t:'Ley 21.675',q:'¿Cuál es el objetivo principal de la Ley 21.675?',o:['Regular las relaciones de pareja','Prevenir, sancionar y erradicar la violencia contra las mujeres en razón de su género','Regular solamente la violencia digital'],a:1,e:'La ley establece medidas de prevención, protección, atención, reparación y acceso a la justicia.'},
+{t:'Desigualdad y estereotipos',q:'Afirmar que las mujeres deben encargarse exclusivamente de las tareas domésticas corresponde a:',o:['Un estereotipo de género','Una relación equitativa','Una decisión clínica'],a:0,e:'Los estereotipos asignan roles y expectativas a las personas por su género y pueden perpetuar desigualdades.'},
+{t:'Verdadero o falso',q:'La violencia de género puede presentarse en el ámbito institucional y gineco-obstétrico.',o:['Verdadero','Falso'],a:0,e:'La Ley 21.675 reconoce, entre otras formas, la violencia institucional y gineco-obstétrica.'}
+],
+purple:[
+{t:'Privacidad digital',q:'Tu pareja exige tu contraseña y revisa tus conversaciones sin permiso. ¿Cómo clasificas esta conducta?',o:['Green flag','Red flag','Acción normal'],a:1,e:'Invadir la privacidad digital y exigir contraseñas son señales de control y alerta.'},
+{t:'Celos y amor',q:'Una persona afirma que los celos son una prueba de amor verdadero. ¿Qué representa esta creencia?',o:['Un mito del amor romántico','Una relación saludable','Una demostración de consentimiento'],a:0,e:'El mito de los celos como prueba de amor normaliza una conducta que puede transformarse en control.'},
+{t:'Autonomía',q:'Una pareja respeta que la otra persona tenga amistades y actividades propias. ¿Qué es?',o:['Red flag','Green flag','Control emocional'],a:1,e:'El respeto por la autonomía y las relaciones sociales es parte de una relación saludable.'},
+{t:'Presión sexual',q:'Alguien insiste en una actividad sexual y dice: «Si me quisieras, lo harías». ¿Cómo clasificas la acción?',o:['Green flag','Acción normal','Red flag'],a:2,e:'Es manipulación y presión. El consentimiento debe ser libre, sin coerción ni amenazas.'},
+{t:'Mito de la media naranja',q:'Creer que existe una única persona predestinada para cada individuo corresponde a:',o:['Mito de la media naranja','Mito de la pasión eterna','Mito del sufrimiento'],a:0,e:'Es la creencia de que existe una persona única y predestinada para cada uno.'},
+{t:'Verdadero o falso',q:'En una relación saludable deben existir respeto mutuo, autonomía, comunicación y confianza.',o:['Verdadero','Falso'],a:0,e:'Estos son pilares de una relación saludable.'}
+],
+green:[
+{t:'Consentimiento',q:'¿Cuál es una característica fundamental del consentimiento?',o:['Es obligatorio una vez que se acepta','Es libre, claro y puede retirarse','Se supone cuando existe una relación de pareja'],a:1,e:'El consentimiento es voluntario, claro, continuo y reversible. Se debe respetar su retirada.'},
+{t:'Derechos sexuales',q:'¿Qué requiere la salud sexual según el enfoque de la OMS presentado en el documento?',o:['Ausencia de violencia y coacción, respeto y protección de los derechos','Que todas las personas tengan las mismas experiencias','Que no se pueda cambiar de opinión'],a:0,e:'La salud sexual requiere experiencias seguras y respetuosas, libres de coacción, discriminación y violencia.'},
+{t:'Autonomía reproductiva',q:'¿Quién debe tomar las decisiones sobre el propio cuerpo y la salud reproductiva?',o:['La pareja','La familia','La propia persona, respetando sus derechos'],a:2,e:'La autonomía implica respetar las decisiones de cada persona sobre su cuerpo.'},
+{t:'Verdadero o falso',q:'El silencio o la falta de resistencia significan que existe consentimiento.',o:['Verdadero','Falso'],a:1,e:'El consentimiento debe ser claro y activo. No se basa en silencio, ambigüedad o inacción.'},
+{t:'Atención de salud',q:'¿Qué debe hacer una matrona para abordar una posible situación de violencia?',o:['Juzgar las decisiones de la usuaria','Crear un espacio seguro, escuchar y evaluar riesgos','Exigir que relate todo inmediatamente'],a:1,e:'La atención debe ser empática, privada y respetuosa, sin culpabilizar ni revictimizar.'},
+{t:'Confidencialidad',q:'¿Qué ley chilena establece derechos relacionados con privacidad y confidencialidad en la atención de salud?',o:['Ley 20.584','Ley 21.393','Ley 21.212'],a:0,e:'La Ley 20.584 establece derechos relacionados con la privacidad y confidencialidad durante la atención de salud. Existen límites y obligaciones legales que deben considerarse.'}
+],
+yellow:[
+{t:'Ponte a prueba',q:'¿Cuál de estas acciones corresponde a violencia sexual?',o:['Realizar un acto sexual sin consentimiento','Respetar un límite personal','Escuchar una opinión diferente'],a:0,e:'La violencia sexual incluye actos de naturaleza sexual sin consentimiento o mediante coerción o abuso de poder.'},
+{t:'Ponte a prueba',q:'¿Qué significa debida diligencia en el contexto de la Ley 21.675?',o:['Actuar de manera oportuna, exhaustiva e idónea','Evitar investigar los hechos','Responsabilizar a la víctima'],a:0,e:'Los organismos deben actuar de forma oportuna y exhaustiva, evitando la revictimización secundaria.'},
+{t:'Ponte a prueba',q:'¿Cuál de las siguientes acciones es escucha activa?',o:['Interrumpir y minimizar','Escuchar sin juzgar y respetar el ritmo de la persona','Culpar a quien relata la experiencia'],a:1,e:'La escucha activa permite relatar la experiencia a su propio ritmo y valida los sentimientos.'},
+{t:'Ponte a prueba',q:'¿Cuál es una consecuencia que puede tener la violencia en la salud sexual y reproductiva?',o:['Embarazos no planificados e ITS','Mayor autonomía automáticamente','Desaparición de los riesgos'],a:0,e:'El documento señala posibles embarazos no planificados, ITS y afectación de la autonomía reproductiva y salud mental.'},
+{t:'Ponte a prueba',q:'¿Qué número corresponde a orientación de SernamEG según el documento?',o:['1455','133','134'],a:0,e:'El 1455 es el número de orientación de SernamEG señalado en el material.'},
+{t:'Verdadero o falso',q:'La matrona debe facilitar la derivación a otros profesionales o redes de apoyo cuando corresponda.',o:['Verdadero','Falso'],a:0,e:'La derivación puede incluir psicología, trabajo social y atención médica especializada, según necesidades y protocolos.'}
+],
+blue:[
+{t:'Caso: consulta de salud',q:'Una usuaria llega a control y su pareja responde todas las preguntas por ella, no la deja hablar y controla sus decisiones. Como matrona, ¿cómo abordarías la situación?',o:['Continuar la consulta con la pareja respondiendo','Buscar un espacio privado, escuchar a la usuaria y evaluar posibles señales de control','Enfrentar a la pareja delante de todos'],a:1,e:'La intervención debe favorecer un espacio privado y seguro, escuchar sin juzgar y evaluar posibles riesgos. Se respeta la autonomía de la usuaria.'},
+{t:'Caso: miedo a pedir ayuda',q:'Una mujer manifiesta miedo de contar lo que vive porque teme una reacción agresiva de su pareja. ¿Qué priorizarías como profesional?',o:['Decirle que debe terminar inmediatamente','Escuchar, generar seguridad, evaluar riesgo y orientar sobre redes de apoyo','Restarle importancia a su temor'],a:1,e:'Se debe ofrecer contención emocional, evaluar peligro inmediato, proteger la confidencialidad y facilitar derivaciones según protocolos.'},
+{t:'Caso: persona cercana',q:'Una amiga te cuenta que su pareja controla sus amistades y revisa su celular. ¿Cómo puedes apoyarla?',o:['Juzgarla por seguir en la relación','Escucharla sin juzgar, reconocer las señales de alerta y orientarla sobre apoyo','Decidir por ella'],a:1,e:'Como persona cercana, puedes escuchar, validar lo que siente y facilitar información de apoyo, respetando su autonomía.'},
+{t:'Caso: consentimiento',q:'Durante una interacción, una persona cambia de opinión y retira su consentimiento. ¿Qué debe ocurrir?',o:['Continuar porque ya había aceptado','Detener la interacción y respetar su decisión','Insistir para que cambie de opinión'],a:1,e:'El consentimiento es reversible y su retirada debe respetarse inmediatamente.'},
+{t:'Caso: atención integral',q:'Una usuaria relata una situación de violencia y necesita apoyo emocional y social. ¿Qué respuesta profesional sería adecuada?',o:['Escuchar, brindar contención y facilitar derivación a psicología o trabajo social según corresponda','Compartir su historia con personas ajenas','Ignorar sus necesidades emocionales'],a:0,e:'La atención integral considera bienestar físico, psicológico y social, además de confidencialidad y continuidad de atención.'},
+{t:'Caso: prevención',q:'En una actividad educativa con jóvenes, ¿qué contenidos ayudarían a prevenir la violencia?',o:['Celos como demostración de amor','Consentimiento, igualdad, autonomía y reconocimiento de señales de alerta','Control de las amistades'],a:1,e:'La educación sexual integral y el enfoque de género promueven respeto, igualdad, autonomía y prevención.'}
+]
+};
+const spaces=['pink','purple','green','yellow','blue','special','pink','green','purple','yellow','blue','pink','special','green','purple','blue','yellow','pink','green','special','purple','blue','yellow','pink','green','purple','blue','yellow'];
+const categoryNames={pink:'Violencia de género',purple:'Violencia en el pololeo',green:'Salud sexual y reproductiva',yellow:'Ponte a prueba',blue:'Casos y roles profesionales'};
+const special={5:'Avanza 2',12:'Pierde turno',19:'Retrocede 2'};
+let players=[],turn=0,turnCount=0,rolled=false,awaiting=false,deckPos={pink:0,purple:0,green:0,yellow:0,blue:0},finished=false;
+function setupNames(){const n=+ $('count').value;$('nameFields').innerHTML='';for(let i=0;i<n;i++){const div=document.createElement('div');div.innerHTML=`<label for="p${i}">Nombre del jugador ${i+1}</label><input id="p${i}" maxlength="22" value="Jugador ${i+1}" placeholder="Nombre">`; $('nameFields').append(div)}}
+$('count').addEventListener('change',setupNames);setupNames();
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function start(){players=Array.from({length:+$('count').value},(_,i)=>({name:$('p'+i).value.trim()||'Jugador '+(i+1),pos:0,score:0,role:roles[i%4][0],desc:roles[i%4][1],skip:false}));turn=0;turnCount=0;rolled=false;awaiting=false;finished=false;deckPos={pink:0,purple:0,green:0,yellow:0,blue:0};$('setup').classList.add('hidden');$('end').classList.add('hidden');$('game').classList.remove('hidden');$('challenge').classList.add('hidden');$('movement').textContent='';render()}
+function render(){if(finished)return;const p=players[turn];$('turnNo').textContent=turnCount+1;$('currentName').textContent=p.name;$('roleName').textContent=p.role;$('roleDesc').textContent=p.desc;$('roll').disabled=rolled||awaiting;$('roll').textContent=rolled?'Desafío pendiente':'🎲 Lanzar dado';$('scoreboard').innerHTML=players.map((x,i)=>`<div class="player ${i===turn?'active':''}"><div><b>${escapeHTML(x.name)}</b><small>Casilla ${x.pos+1} de 28 · ${x.role}</small></div><b>${x.score} pts</b></div>`).join('');$('board').innerHTML=spaces.map((s,i)=>{let text=i===0?'SALIDA':i===27?'META':s==='special'?(special[i]||'Especial'):categoryNames[s];let tokens=players.filter(x=>x.pos===i).map(x=>escapeHTML(x.name.slice(0,1).toUpperCase())).join(' · ');return `<div class="cell ${s} ${players.some(x=>x.pos===i)?'current':''}"><span class="num">${i+1}</span><span>${text}</span><span class="tokens">${tokens||'·'}</span></div>`}).join('')}
+function nextCard(cat){const d=decks[cat],i=deckPos[cat]++%d.length;return d[i]}
+function roll(){if(rolled||awaiting||finished)return;const p=players[turn];if(p.skip){p.skip=false;rolled=true;$('die').textContent='⏭️';$('movement').textContent=p.name+' pierde este turno por una casilla especial.';setTimeout(endTurn,1000);return}const n=1+Math.floor(Math.random()*6);$('die').textContent=['','⚀','⚁','⚂','⚃','⚄','⚅'][n];p.pos=Math.min(27,p.pos+n);rolled=true;$('movement').textContent=`${p.name} avanzó ${n} casillas y llegó a la casilla ${p.pos+1}.`;render();if(p.pos===27){finish();return}const cat=spaces[p.pos];if(cat==='special'){doSpecial(p);return}showChallenge(cat)}
+function doSpecial(p){if(p.pos===5){p.pos=Math.min(27,p.pos+2);$('movement').textContent='¡Casilla especial! Avanzas 2 casillas adicionales.'}else if(p.pos===12){p.skip=true;$('movement').textContent='¡Casilla especial! Pierdes tu próximo turno.'}else if(p.pos===19){p.pos=Math.max(0,p.pos-2);$('movement').textContent='¡Casilla especial! Retrocedes 2 casillas.'}render();if(p.pos===27){finish();return}setTimeout(endTurn,1200)}
+function showChallenge(cat){const c=nextCard(cat);awaiting=true;$('challenge').classList.remove('hidden');$('category').textContent=categoryNames[cat];$('category').className='tag '+cat;$('cardNo').textContent='Carta '+(turnCount+1);$('cardTitle').textContent=c.t;$('question').textContent=c.q;$('caseHint').classList.toggle('hidden',cat!=='blue');$('answers').innerHTML='';$('feedback').classList.add('hidden');$('next').classList.add('hidden');c.o.forEach((option,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+option;b.addEventListener('click',()=>answer(i,c,cat));$('answers').append(b)})}
+function answer(choice,c,cat){if(!awaiting)return;awaiting=false;const correct=choice===c.a;if(correct)players[turn].score+=5;[...$('answers').children].forEach((b,i)=>{b.disabled=true;if(i===c.a)b.classList.add('correct');if(i===choice&&!correct)b.classList.add('wrong')});$('feedback').classList.remove('hidden');$('feedback').classList.toggle('good',correct);$('feedback').classList.toggle('bad',!correct);$('feedback').innerHTML=`<b>${correct?'✓ ¡Respuesta correcta! +5 puntos':'No es correcto. ¡No pierdes puntos!'}</b><p style="margin:7px 0 0">${escapeHTML(c.e)}</p>${cat==='blue'?'<p style="margin:7px 0 0"><b>Recuerda:</b> se valora identificar el problema y proponer una alternativa respetuosa, segura y centrada en la persona.</p>':''}`;$('next').classList.remove('hidden');render()}
+function endTurn(){if(finished)return;$('challenge').classList.add('hidden');turnCount++;turn=(turn+1)%players.length;rolled=false;awaiting=false;$('movement').textContent='';render()}
+function finish(){finished=true;$('game').classList.add('hidden');$('end').classList.remove('hidden');const sorted=[...players].sort((a,b)=>b.score-a.score);$('winnerText').textContent=players[turn].name+' llegó primero a la meta.';$('finalScores').innerHTML=sorted.map((p,i)=>`<div class="player"><span><b>${i+1}. ${escapeHTML(p.name)}</b></span><b>${p.score} puntos</b></div>`).join('')}
+$('start').addEventListener('click',start);$('roll').addEventListener('click',roll);$('next').addEventListener('click',endTurn);$('rules').addEventListener('click',()=>$('rulesDialog').showModal());$('closeRules').addEventListener('click',()=>$('rulesDialog').close());$('restart').addEventListener('click',()=>{if(confirm('¿Quieres reiniciar la partida? Se perderán los puntajes actuales.')){$('game').classList.add('hidden');$('end').classList.add('hidden');$('setup').classList.remove('hidden')}});$('playAgain').addEventListener('click',()=>{$('end').classList.add('hidden');$('setup').classList.remove('hidden')});
+</script>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import {getAuth,signInAnonymously} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {getDatabase,ref,get,set,onValue,runTransaction,remove} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+const app=initializeApp({apiKey:"AIzaSyDqpr141fRyHSZVQWpIx5wgl-Xqz3hPkpA",authDomain:"decisiones-que-importan.firebaseapp.com",projectId:"decisiones-que-importan",databaseURL:"https://decisiones-que-importan-default-rtdb.firebaseio.com",storageBucket:"decisiones-que-importan.firebasestorage.app",messagingSenderId:"376426511444",appId:"1:376426511444:web:821ae88827e3a1a9ee01c1"});
+const auth=getAuth(app),db=getDatabase(app);let uid,code,room,unsub,processing=false,connected=false;
+const status=t=>$('netStatus').textContent=t;
+const roomRef=()=>ref(db,'rooms/'+code);
+const name=()=>$('onlineName').value.trim().slice(0,22);
+const host=()=>room?.host===uid;
+const fresh=()=>({phase:'roll',turn:0,turnCount:0,die:'🎲',movement:'',deckPos:{pink:0,purple:0,green:0,yellow:0,blue:0}});
+function show(s){const active=s.players[s.turn],mine=active.uid===uid;players=s.players;turn=s.turn;turnCount=s.turnCount;finished=false;rolled=s.phase!=='roll';awaiting=s.phase==='answer';$('setup').classList.add('hidden');$('game').classList.remove('hidden');$('end').classList.add('hidden');$('restart').classList.add('hidden');$('die').textContent=s.die;$('movement').textContent=s.movement||'';render();$('roleName').textContent=s.players.find(p=>p.uid===uid)?.role||active.role;$('roleDesc').textContent=s.players.find(p=>p.uid===uid)?.desc||active.desc;$('roll').disabled=!mine||s.phase!=='roll'||!connected;$('roll').textContent=mine?(s.phase==='roll'?'🎲 Lanzar dado':'Turno en curso'):'Esperando a '+active.name;$('challenge').classList.add('hidden');if(s.phase==='answer'||s.phase==='feedback'){const c=decks[s.cat][s.card];$('challenge').classList.remove('hidden');$('category').textContent=categoryNames[s.cat];$('category').className='tag '+s.cat;$('cardNo').textContent='Carta '+(s.turnCount+1);$('cardTitle').textContent=c.t;$('question').textContent=c.q;$('caseHint').classList.toggle('hidden',s.cat!=='blue');$('answers').replaceChildren();c.o.forEach((o,i)=>{const b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+o;b.disabled=!mine||s.phase!=='answer'||!connected;if(s.phase==='feedback'){if(i===c.a)b.classList.add('correct');if(i===s.choice&&i!==c.a)b.classList.add('wrong')}b.onclick=()=>send('answer',i);$('answers').append(b)});$('feedback').classList.toggle('hidden',s.phase!=='feedback');$('feedback').textContent=s.phase==='feedback'?(s.choice===c.a?'✓ Correcto. +5 puntos. ':'No es correcto. ')+c.e:'';$('next').classList.toggle('hidden',s.phase!=='feedback');$('next').disabled=!mine||!connected;}else if(s.phase==='special'){$('challenge').classList.remove('hidden');$('category').textContent='Casilla especial';$('category').className='tag special';$('cardNo').textContent='';$('cardTitle').textContent=s.movement;$('question').textContent='';$('caseHint').classList.add('hidden');$('answers').replaceChildren();$('feedback').classList.add('hidden');$('next').classList.remove('hidden');$('next').disabled=!mine||!connected;}if(s.phase==='finished'){finish();$('playAgain').textContent='Volver al menú';}}
+function updateUI(){if(!room)return;const m=Object.entries(room.members||{}).sort((a,b)=>a[1].joined-b[1].joined||a[0].localeCompare(b[0]));$('membersList').innerHTML=m.map(([id,p])=>'<div class="player"><b>'+escapeHTML(p.name)+'</b><span>'+(id===room.host?'Anfitrión':'Participante')+'</span></div>').join('');$('roomTitle').textContent='Sala '+code+' · '+m.length+'/4';$('onlineStart').classList.toggle('hidden',!host()||!!room.state);$('onlineStart').disabled=m.length<2||m.length>4||!connected; if(room.state){if(room.state.players.some(p=>p.uid===uid))show(room.state);else status('La partida ya comenzó; no estás en la lista de jugadores.');}if(host())processAction();}
+function attach(c){code=c;localStorage.setItem('decisionesRoom',c);$('lobby').classList.remove('hidden');$('setup').classList.add('hidden');$('createRoom').disabled=true;$('joinRoom').disabled=true;unsub=onValue(roomRef(),snap=>{room=snap.val();if(!room){leave();return}status(connected?'Sala conectada':'Sin conexión');updateUI()},e=>status(e.message));}
+async function create(){if(!name())return status('Escribe tu nombre.');try{for(let i=0;i<10;i++){const c=String(100000+Math.floor(Math.random()*900000));const r=ref(db,'rooms/'+c);if((await get(r)).exists())continue;await set(r,{host:uid,members:{[uid]:{name:name(),joined:Date.now()}}});attach(c);return}status('No se pudo generar código.')}catch(e){status(e.message)}}
+async function join(){const c=$('roomCode').value.trim();if(!name()||!/^\d{6}$/.test(c))return status('Escribe tu nombre y código de seis dígitos.');try{const r=(await get(ref(db,'rooms/'+c))).val();if(!r)return status('Sala no encontrada.');if(!r.members?.[uid]&&(r.state||Object.keys(r.members||{}).length>=4))return status('Sala llena o partida iniciada.');if(!r.members?.[uid])await set(ref(db,'rooms/'+c+'/members/'+uid),{name:name(),joined:Date.now()});attach(c)}catch(e){status(e.message)}}
+async function send(type,choice){if(!connected||!room?.state||room.state.players[room.state.turn].uid!==uid)return;try{await set(ref(db,'rooms/'+code+'/members/'+uid+'/action'),{type,choice:choice??-1,turn:room.state.turnCount,phase:room.state.phase,id:crypto.randomUUID()})}catch(e){status(e.message)}}
+async function processAction(){if(processing||!connected||!host()||!room.state)return;const s=room.state,p=s.players[s.turn],a=room.members?.[p.uid]?.action;if(!a||a.id===s.lastAction||a.turn!==s.turnCount||a.phase!==s.phase)return;processing=true;try{await runTransaction(ref(db,'rooms/'+code+'/state'),v=>{if(!v||v.lastAction===a.id||v.turnCount!==a.turn||v.phase!==a.phase)return;const p=v.players[v.turn];if(p.uid!==s.players[s.turn].uid)return;if(a.type==='roll'&&v.phase==='roll'){if(p.skip){p.skip=false;v.die='⏭️';v.movement=p.name+' pierde este turno.';v.phase='special'}else{const n=1+Math.floor(Math.random()*6);v.die=['','⚀','⚁','⚂','⚃','⚄','⚅'][n];p.pos=Math.min(27,p.pos+n);v.movement=p.name+' avanzó '+n+' casillas.';if(p.pos===27)v.phase='finished';else if(spaces[p.pos]==='special'){if(p.pos===5){p.pos+=2;v.movement='Avanzas 2 casillas adicionales.'}else if(p.pos===12){p.skip=true;v.movement='Pierdes tu próximo turno.'}else{p.pos-=2;v.movement='Retrocedes 2 casillas.'}v.phase='special'}else{v.cat=spaces[p.pos];v.card=v.deckPos[v.cat]++%decks[v.cat].length;v.phase='answer'}}}else if(a.type==='answer'&&v.phase==='answer'&&Number.isInteger(a.choice)&&a.choice>=0&&a.choice<decks[v.cat][v.card].o.length){v.choice=a.choice;if(a.choice===decks[v.cat][v.card].a)p.score+=5;v.phase='feedback'}else if(a.type==='next'&&['feedback','special'].includes(v.phase)){v.turn=(v.turn+1)%v.players.length;v.turnCount++;v.phase='roll';v.movement='';v.die='🎲'}else return;v.lastAction=a.id;return v})}catch(e){status(e.message)}finally{processing=false;}}
+$('onlineStart').onclick=async()=>{try{await runTransaction(roomRef(),r=>{if(!r||r.host!==uid||r.state)return;const m=Object.entries(r.members||{}).sort((a,b)=>a[1].joined-b[1].joined||a[0].localeCompare(b[0]));if(m.length<2||m.length>4)return;r.state={...fresh(),players:m.map(([id,p],i)=>({uid:id,name:p.name,pos:0,score:0,skip:false,role:roles[i][0],desc:roles[i][1]}))};return r})}catch(e){status(e.message)}};
+function leave(){if(unsub)unsub();unsub=null;code=null;room=null;localStorage.removeItem('decisionesRoom');$('lobby').classList.add('hidden');$('game').classList.add('hidden');$('end').classList.add('hidden');$('setup').classList.remove('hidden');$('restart').classList.remove('hidden');$('playAgain').textContent='Jugar nuevamente';$('createRoom').disabled=!connected;$('joinRoom').disabled=!connected;status('Conectado. Crea o únete a una sala.');}
+$('leaveRoom').onclick=async()=>{if(room&&!room.state&&!host())try{await remove(ref(db,'rooms/'+code+'/members/'+uid))}catch(e){status(e.message);return}leave()};$('copyInvite').onclick=async()=>{const u=new URL(location.href);u.searchParams.set('sala',code);try{await navigator.clipboard.writeText(u.href);status('Enlace copiado')}catch{status(u.href)}};
+$('roll').addEventListener('click',e=>{if(code){e.stopImmediatePropagation();send('roll')}},true);$('next').addEventListener('click',e=>{if(code){e.stopImmediatePropagation();send('next')}},true);$('playAgain').addEventListener('click',e=>{if(code){e.stopImmediatePropagation();leave()}},true);
+$('createRoom').onclick=create;$('joinRoom').onclick=join;$('roomCode').value=new URLSearchParams(location.search).get('sala')||'';
+try{uid=(await signInAnonymously(auth)).user.uid;onValue(ref(db,'.info/connected'),snap=>{connected=snap.val()===true;status(connected?'Conectado. Crea o únete a una sala.':'Sin conexión con Firebase.');$('createRoom').disabled=!connected||!!code;$('joinRoom').disabled=!connected||!!code;if(room)updateUI()});const old=localStorage.getItem('decisionesRoom');if(old){const r=(await get(ref(db,'rooms/'+old))).val();if(r?.members?.[uid])attach(old);else localStorage.removeItem('decisionesRoom')}}catch(e){status('Error de conexión: '+e.message)}
+</script>
+</body>
+</html>
